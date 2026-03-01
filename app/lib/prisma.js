@@ -10,14 +10,14 @@ function createPrismaClient() {
     // Strip Prisma-specific ?schema=public param — pg driver doesn't understand it
     const url = new URL(connStr);
     url.searchParams.delete("schema");
-    // Ensure SSL for RDS
-    if (!url.searchParams.has("sslmode")) {
-      url.searchParams.set("sslmode", "require");
-    }
     connStr = url.toString();
   }
 
-  const adapter = new PrismaPg({ connectionString: connStr });
+  // RDS uses AWS-issued certificates; allow them with rejectUnauthorized: false
+  const adapter = new PrismaPg({
+    connectionString: connStr,
+    options: { ssl: { rejectUnauthorized: false } },
+  });
   return new PrismaClient({ adapter });
 }
 
