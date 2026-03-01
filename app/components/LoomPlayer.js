@@ -431,14 +431,6 @@ export default function LoomPlayer() {
         </button>
       </div>
 
-      {/* Bottom-left camera icon */}
-      <button style={{ position: "fixed", bottom: 16, left: 16, width: 40, height: 40, borderRadius: 10, background: "#fff", border: "1px solid #e5e7eb", boxShadow: "0 2px 8px rgba(0,0,0,0.08)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#6b7280", zIndex: 50 }}>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <rect x="2" y="6" width="13" height="12" rx="2" />
-          <path d="M22 8l-7 4 7 4V8z" />
-        </svg>
-      </button>
-
       {/* Help button */}
       <button style={{ position: "fixed", bottom: 16, right: 16, width: 40, height: 40, borderRadius: "50%", background: "#fff", border: "1px solid #e5e7eb", boxShadow: "0 2px 8px rgba(0,0,0,0.08)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, fontWeight: 700, color: "#6b7280", zIndex: 50 }}>
         ?
