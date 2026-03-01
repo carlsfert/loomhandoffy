@@ -291,20 +291,6 @@ export default function LoomPlayer() {
             </div>
           </div>
 
-          {/* Recording controls — left side */}
-          <div style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, zIndex: 10 }}>
-            <div style={{ width: 36, height: 36, borderRadius: 8, background: "#ef4444", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <div style={{ width: 14, height: 14, borderRadius: 3, background: "#fff" }} />
-            </div>
-            <span style={{ fontSize: 10, color: "#333", fontWeight: 600, background: "rgba(255,255,255,0.85)", borderRadius: 4, padding: "2px 6px" }}>0:00</span>
-            <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(0,0,0,0.7)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff">
-                <rect x="5" y="3" width="5" height="18" rx="1" />
-                <rect x="14" y="3" width="5" height="18" rx="1" />
-              </svg>
-            </div>
-          </div>
-
           {/* Center play button */}
           {!isPlaying && (
             <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", zIndex: 15 }}>
