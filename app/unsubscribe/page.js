@@ -57,7 +57,7 @@ export default function UnsubscribePage() {
           margin: 16,
         }}
       >
-        {/* Loom logo */}
+        {/* Flooom logo */}
         <div
           style={{
             display: "flex",
@@ -80,7 +80,7 @@ export default function UnsubscribePage() {
               color: "#111",
             }}
           >
-            Loom
+            Flooom
           </span>
         </div>
 
@@ -128,7 +128,7 @@ export default function UnsubscribePage() {
                 margin: "0 0 24px",
               }}
             >
-              Enter your email address below to unsubscribe from all Loom email
+              Enter your email address below to unsubscribe from all Flooom email
               notifications.
             </p>
 
