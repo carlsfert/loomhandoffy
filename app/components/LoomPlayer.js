@@ -197,31 +197,6 @@ export default function LoomPlayer() {
             </div>
           )}
 
-          {/* Overlay info */}
-          <div
-            style={{ position: "absolute", bottom: 50, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, zIndex: 20 }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div style={{ background: "rgba(0,0,0,0.75)", borderRadius: 8, padding: "6px 14px", display: "flex", alignItems: "center", gap: 8, color: "#fff", fontSize: 13, fontWeight: 600, backdropFilter: "blur(8px)" }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2">
-                <path d="M1 4v6h6" />
-                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
-              </svg>
-              0.8x
-            </div>
-            <div style={{ background: "rgba(0,0,0,0.75)", borderRadius: 8, padding: "6px 14px", display: "flex", alignItems: "center", gap: 6, color: "#fff", fontSize: 12, backdropFilter: "blur(8px)" }}>
-              <span>3 min</span>
-              <span>🦎</span>
-              <span>3 min 52 sec</span>
-            </div>
-            <button style={{ background: "rgba(0,0,0,0.75)", borderRadius: 8, padding: "8px 18px", display: "flex", alignItems: "center", gap: 8, color: "#fff", fontSize: 13, fontWeight: 500, border: "none", cursor: "pointer", backdropFilter: "blur(8px)" }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2">
-                <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z" />
-              </svg>
-              Watch Later
-            </button>
-          </div>
-
           {/* Loom badge */}
           <div style={{ position: "absolute", bottom: 12, right: 12, width: 32, height: 32, borderRadius: 8, background: "#625DF5", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 10 }}>
             <svg width="16" height="16" viewBox="0 0 32 32" fill="none">
