@@ -13,10 +13,10 @@ function createPrismaClient() {
     connStr = url.toString();
   }
 
-  // RDS uses AWS-issued certificates; allow them with rejectUnauthorized: false
+  // First arg is pg.PoolConfig — ssl goes at the top level
   const adapter = new PrismaPg({
     connectionString: connStr,
-    options: { ssl: { rejectUnauthorized: false } },
+    ssl: { rejectUnauthorized: false },
   });
   return new PrismaClient({ adapter });
 }
