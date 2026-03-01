@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "db:migrate": "npx prisma migrate dev",
     "db:seed": "node prisma/seed.js",
@@ -20,5 +20,8 @@
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "dotenv": "^17.3.1"
   }
 }
