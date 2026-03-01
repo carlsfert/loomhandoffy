@@ -1,8 +1,25 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 
-export default function LoomPlayer() {
+function formatTimeAgo(dateString) {
+  const seconds = Math.floor((Date.now() - new Date(dateString)) / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+  if (days > 0) return `${days} day${days === 1 ? "" : "s"} ago`;
+  if (hours > 0) return `${hours} hour${hours === 1 ? "" : "s"} ago`;
+  if (minutes > 0) return `${minutes} minute${minutes === 1 ? "" : "s"} ago`;
+  return "just now";
+}
+
+export default function LoomPlayer({
+  videoUrl = "https://storage.googleapis.com/videos-eu/p5QxDBXybOUa1u1wPtSCR.mp4",
+  title = "Optimierung des Slicer-Exports für Kampagnen",
+  author = "Zachary Coleman",
+  views = 2,
+  createdAt,
+} = {}) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const progressRef = useRef(null);
@@ -144,14 +161,14 @@ export default function LoomPlayer() {
               lineHeight: 1.3,
             }}
           >
-            Optimierung des Slicer-Exports für Kampagnen
+            {title}
           </h1>
           <p style={{ fontSize: 14, color: "#6b7280", margin: "4px 0 0" }}>
-            Zachary Coleman · 2 days ago
+            {author}{createdAt ? ` · ${formatTimeAgo(createdAt)}` : ""}
           </p>
         </div>
         <span style={{ fontSize: 14, color: "#6b7280", whiteSpace: "nowrap", marginTop: 4 }}>
-          2 views
+          {views} {views === 1 ? "view" : "views"}
         </span>
       </div>
 
@@ -180,7 +197,7 @@ export default function LoomPlayer() {
           {/* Video */}
           <video
             ref={videoRef}
-            src="https://storage.googleapis.com/videos-eu/p5QxDBXybOUa1u1wPtSCR.mp4"
+            src={videoUrl}
             onTimeUpdate={handleTimeUpdate}
             onEnded={() => setIsPlaying(false)}
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
