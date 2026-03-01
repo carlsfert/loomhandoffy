@@ -137,7 +137,7 @@ export default function LoomPlayer({
               ))}
             </g>
           </svg>
-          <span style={{ fontSize: 18, fontWeight: 700, color: "#111" }}>Loom</span>
+          <span style={{ fontSize: 18, fontWeight: 700, color: "#111" }}>Flooom</span>
         </div>
       </div>
 
@@ -245,7 +245,7 @@ export default function LoomPlayer({
             </div>
           )}
 
-          {/* Loom badge */}
+          {/* Flooom badge */}
           <div style={{ position: "absolute", bottom: 12, right: 12, width: 32, height: 32, borderRadius: 8, background: "#625DF5", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 10 }}>
             <svg width="16" height="16" viewBox="0 0 32 32" fill="none">
               <g transform="translate(16,16)">

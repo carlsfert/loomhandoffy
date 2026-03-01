@@ -10,11 +10,11 @@ export async function generateMetadata({ params }) {
     const video = await prisma.video.findUnique({ where: { id } });
     if (!video) return { title: "Video not found" };
     return {
-      title: `${video.title} | Loom`,
+      title: `${video.title} | Flooom`,
       description: `${video.title} by ${video.author}`,
     };
   } catch {
-    return { title: "Loom Player" };
+    return { title: "Flooom Player" };
   }
 }
 
