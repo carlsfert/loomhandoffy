@@ -6,21 +6,35 @@ export default function LoomPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const progressRef = useRef(null);
+  const videoRef = useRef(null);
 
-  useEffect(() => {
-    let interval;
-    if (isPlaying) {
-      interval = setInterval(() => {
-        setProgress((p) => (p >= 100 ? 0 : p + 0.1));
-      }, 50);
+  const togglePlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play();
+      setIsPlaying(true);
+    } else {
+      video.pause();
+      setIsPlaying(false);
     }
-    return () => clearInterval(interval);
-  }, [isPlaying]);
+  };
+
+  const handleTimeUpdate = () => {
+    const video = videoRef.current;
+    if (!video || !video.duration) return;
+    setProgress((video.currentTime / video.duration) * 100);
+  };
 
   const handleProgressClick = (e) => {
+    const video = videoRef.current;
     const rect = progressRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
-    setProgress((x / rect.width) * 100);
+    const pct = x / rect.width;
+    setProgress(pct * 100);
+    if (video && video.duration) {
+      video.currentTime = pct * video.duration;
+    }
   };
 
   return (
@@ -77,25 +91,6 @@ export default function LoomPlayer() {
           gap: 12,
         }}
       >
-        <button
-          style={{
-            background: "none",
-            border: "1px solid #d1d5db",
-            borderRadius: 6,
-            padding: "5px 7px",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "#6b7280",
-          }}
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <rect x="3" y="3" width="18" height="18" rx="2" />
-            <line x1="9" y1="3" x2="9" y2="21" />
-          </svg>
-        </button>
-
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
             <circle cx="16" cy="16" r="14" fill="#625DF5" />
@@ -180,130 +175,16 @@ export default function LoomPlayer() {
             cursor: "pointer",
             boxShadow: "0 2px 16px rgba(0,0,0,0.08)",
           }}
-          onClick={() => setIsPlaying(!isPlaying)}
+          onClick={togglePlay}
         >
-          {/* Screen recording background */}
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: "linear-gradient(135deg, #e8ecf1 0%, #dde1e7 50%, #d4d8dd 100%)",
-            }}
-          >
-            {/* Browser window */}
-            <div
-              style={{
-                position: "absolute",
-                top: "4%",
-                left: "6%",
-                right: "6%",
-                bottom: "4%",
-                background: "#fff",
-                borderRadius: 10,
-                boxShadow: "0 4px 24px rgba(0,0,0,0.12)",
-                overflow: "hidden",
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              {/* Tab bar */}
-              <div
-                style={{
-                  background: "#e9ecef",
-                  padding: "6px 12px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                }}
-              >
-                <div style={{ display: "flex", gap: 5 }}>
-                  <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#ff5f57" }} />
-                  <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#ffbd2e" }} />
-                  <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#28c840" }} />
-                </div>
-                <div style={{ display: "flex", gap: 2, marginLeft: 8 }}>
-                  <div style={{ background: "#fff", borderRadius: "6px 6px 0 0", padding: "4px 14px", fontSize: 9, color: "#333", whiteSpace: "nowrap" }}>
-                    Campaigns | Pitchlane
-                  </div>
-                  <div style={{ background: "rgba(255,255,255,0.5)", borderRadius: "6px 6px 0 0", padding: "4px 14px", fontSize: 9, color: "#999", whiteSpace: "nowrap" }}>
-                    Acquisit Zight: LP CWo...
-                  </div>
-                </div>
-              </div>
-
-              {/* URL bar */}
-              <div style={{ background: "#f4f5f7", padding: "5px 12px", display: "flex", alignItems: "center", gap: 8 }}>
-                <div style={{ display: "flex", gap: 6 }}>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>
-                </div>
-                <div style={{ flex: 1, background: "#fff", borderRadius: 20, padding: "4px 12px", fontSize: 9, color: "#999", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", border: "1px solid #e0e0e0" }}>
-                  app.pitchlane.com/campaigns?...
-                </div>
-              </div>
-
-              {/* Page content */}
-              <div style={{ flex: 1, padding: "16px 24px", background: "#f8f9fb" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-                  <div style={{ width: 18, height: 18, borderRadius: 4, background: "#2563eb" }} />
-                  <span style={{ fontSize: 10, fontWeight: 600, color: "#333" }}>Pitchlane</span>
-                  <div style={{ flex: 1 }} />
-                  <span style={{ fontSize: 8, color: "#999" }}>Billing</span>
-                  <span style={{ fontSize: 8, color: "#999", marginLeft: 8 }}>Help</span>
-                </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
-                  <span style={{ fontSize: 16, fontWeight: 700, color: "#111" }}>Campaigns</span>
-                  <div style={{ flex: 1 }} />
-                  <div style={{ background: "#f0f4ff", border: "1px solid #c7d7fe", borderRadius: 6, padding: "4px 10px", fontSize: 8, color: "#2563eb", fontWeight: 600 }}>📂 New Folder</div>
-                  <div style={{ background: "#2563eb", borderRadius: 6, padding: "4px 10px", fontSize: 8, color: "#fff", fontWeight: 600 }}>+ Create campaign</div>
-                </div>
-                <div style={{ display: "flex", gap: 16, marginBottom: 14, borderBottom: "1px solid #e5e7eb", paddingBottom: 6 }}>
-                  <span style={{ fontSize: 10, fontWeight: 600, color: "#111", borderBottom: "2px solid #111", paddingBottom: 4 }}>Active</span>
-                  <span style={{ fontSize: 10, color: "#999" }}>Archived</span>
-                </div>
-                <div style={{ background: "#fef9c3", borderRadius: 8, padding: "10px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-                  <span style={{ fontSize: 10, color: "#78350f" }}>🚀 Now is the time to scale and send even more videos!</span>
-                  <button style={{ background: "#eab308", color: "#fff", border: "none", borderRadius: 6, padding: "4px 10px", fontSize: 8, fontWeight: 600, cursor: "pointer" }}>See Plans</button>
-                </div>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10 }}>
-                  {[
-                    { title: "CNS", hasThumb: false, sub: "No campaigns" },
-                    { title: "Growthhub: SaaS YC/VC backed", hasThumb: true, color: "#ef4444" },
-                    { title: "Campaign", hasThumb: true, color: "#3b82f6" },
-                    { title: "AMZ Ads: AI Audit 20.2.", hasThumb: true, color: "#8b5cf6" },
-                  ].map((item, i) => (
-                    <div key={i} style={{ background: "#fff", borderRadius: 8, border: "1px solid #e5e7eb", overflow: "hidden" }}>
-                      <div style={{ height: 48, background: item.hasThumb ? `linear-gradient(135deg, ${item.color}33, ${item.color}11)` : "#f3f4f6", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        {item.hasThumb ? (
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill={item.color} opacity="0.4"><polygon points="6,3 20,12 6,21" /></svg>
-                        ) : (
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" /></svg>
-                        )}
-                      </div>
-                      <div style={{ padding: "6px 8px" }}>
-                        <div style={{ fontSize: 8, fontWeight: 600, color: "#333", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{item.title}</div>
-                        {item.sub && <div style={{ fontSize: 7, color: "#999", marginTop: 2 }}>{item.sub}</div>}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Recording controls — left side */}
-          <div style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, zIndex: 10 }}>
-            <div style={{ width: 36, height: 36, borderRadius: 8, background: "#ef4444", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <div style={{ width: 14, height: 14, borderRadius: 3, background: "#fff" }} />
-            </div>
-            <span style={{ fontSize: 10, color: "#333", fontWeight: 600, background: "rgba(255,255,255,0.85)", borderRadius: 4, padding: "2px 6px" }}>0:00</span>
-            <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(0,0,0,0.7)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff">
-                <rect x="5" y="3" width="5" height="18" rx="1" />
-                <rect x="14" y="3" width="5" height="18" rx="1" />
-              </svg>
-            </div>
-          </div>
+          {/* Video */}
+          <video
+            ref={videoRef}
+            src="https://storage.googleapis.com/videos-eu/p5QxDBXybOUa1u1wPtSCR.mp4"
+            onTimeUpdate={handleTimeUpdate}
+            onEnded={() => setIsPlaying(false)}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+          />
 
           {/* Center play button */}
           {!isPlaying && (
@@ -444,14 +325,6 @@ export default function LoomPlayer() {
           Comment
         </button>
       </div>
-
-      {/* Bottom-left camera icon */}
-      <button style={{ position: "fixed", bottom: 16, left: 16, width: 40, height: 40, borderRadius: 10, background: "#fff", border: "1px solid #e5e7eb", boxShadow: "0 2px 8px rgba(0,0,0,0.08)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#6b7280", zIndex: 50 }}>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <rect x="2" y="6" width="13" height="12" rx="2" />
-          <path d="M22 8l-7 4 7 4V8z" />
-        </svg>
-      </button>
 
       {/* Help button */}
       <button style={{ position: "fixed", bottom: 16, right: 16, width: 40, height: 40, borderRadius: "50%", background: "#fff", border: "1px solid #e5e7eb", boxShadow: "0 2px 8px rgba(0,0,0,0.08)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, fontWeight: 700, color: "#6b7280", zIndex: 50 }}>
