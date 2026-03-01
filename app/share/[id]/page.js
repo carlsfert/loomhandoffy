@@ -2,6 +2,8 @@ import prisma from "../../lib/prisma";
 import { notFound } from "next/navigation";
 import LoomPlayer from "../../components/LoomPlayer";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }) {
   const { id } = await params;
   const video = await prisma.video.findUnique({ where: { id } });
