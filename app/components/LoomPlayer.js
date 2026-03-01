@@ -19,6 +19,8 @@ export default function LoomPlayer({
   author = "Zachary Coleman",
   views = 2,
   createdAt,
+  ctaText,
+  ctaLink,
 } = {}) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -202,6 +204,35 @@ export default function LoomPlayer({
             onEnded={() => setIsPlaying(false)}
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
           />
+
+          {/* CTA button — top right */}
+          {ctaText && ctaLink && (
+            <a
+              href={ctaLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                position: "absolute",
+                top: 16,
+                right: 16,
+                zIndex: 20,
+                background: "#625DF5",
+                color: "#fff",
+                padding: "10px 20px",
+                borderRadius: 8,
+                fontSize: 14,
+                fontWeight: 600,
+                textDecoration: "none",
+                boxShadow: "0 2px 12px rgba(0,0,0,0.25)",
+                transition: "background 0.15s ease",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "#4f49d6"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "#625DF5"; }}
+            >
+              {ctaText}
+            </a>
+          )}
 
           {/* Center play button */}
           {!isPlaying && (
