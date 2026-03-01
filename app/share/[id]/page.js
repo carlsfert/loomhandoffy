@@ -56,6 +56,8 @@ export default async function SharePage({ params }) {
       author={video.author}
       views={video.views + 1}
       createdAt={video.createdAt.toISOString()}
+      ctaText={video.ctaText}
+      ctaLink={video.ctaLink}
     />
   );
 }
